@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +36,49 @@ namespace Student_Group
             _group_name = source_group.GroupName;
             _group_specialization = source_group.GroupSpecialization;
             _course_number = source_group.CourseNumber;
+        }
+
+        public static bool operator true(Group group) => group.students.Count > 0;
+        public static bool operator false(Group group) => group.students.Count == 0;
+
+        public static bool operator > (Group a, Group b)
+        {
+            if (a.students.Count > b.students.Count)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator < (Group a, Group b)
+        {
+            return !(a > b);
+        }
+
+        public static bool operator == (Group a, Group b)
+        {
+            if (a.students.Count == b.students.Count)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator != (Group a, Group b)
+        {
+            return !(a == b);
+        }
+
+        public Student this[int key]
+        {
+            get => students[key];
+            set => students[key] = value;
         }
 
         public string GroupName

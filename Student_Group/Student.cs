@@ -80,6 +80,43 @@ namespace Student_Group
             is_member = source_student.IsMember;
         }
 
+        public static bool operator > (Student a, Student b)
+        {
+            if (a.test_rates.Average() > b.test_rates.Average())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator < (Student a, Student b)
+        {
+            return !(a > b);
+        }
+        
+        public static bool operator true(Student student) => student.test_rates.Average() >= 7;
+        public static bool operator false(Student student) => student.test_rates.Average() <= 7;
+
+        public static bool operator == (Student a, Student b)
+        {
+            if (a.test_rates.Average() == b.test_rates.Average())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator != (Student a, Student b)
+        {
+            return !(a == b);
+        }
+
         public string Name
         {
             get { return _name; }
