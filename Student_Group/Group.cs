@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Student_Group
 {
-    internal class Group
+    internal class Group : ICloneable
     {
         List<Student> students;
         private string _group_name;
@@ -99,7 +99,7 @@ namespace Student_Group
 
         public List<Student> GetStudentsCopy()
         {
-            return new List<Student>(students);
+            return students.Select(s => new Student(s)).ToList();
         }
 
         public void AddStudent(Student student)
@@ -135,9 +135,19 @@ namespace Student_Group
             Console.WriteLine("Group's students:\n");
             for (int i = 0; i < temp_students.Count; i++)
             {
-                Console.WriteLine($"{i} - " + temp_students[i].Name + temp_students[i].Surname + temp_students[i].Email);
+                Console.WriteLine($"{i} - " + $"{temp_students[i].Name} " + $"{temp_students[i].Surname} " + $"Email: {temp_students[i].Email} " + $"Phone number: {temp_students[i].PhoneNumber}");
             }
             Console.WriteLine("End of Group's students\n");
+        }
+
+        /// <summary>
+        /// Returns a deep copy of original Group.
+        /// </summary>
+        /// <returns>Deep copy of Group.</returns>
+        public object Clone()
+        {
+            var temp_group = new Group(this);
+            return temp_group;
         }
     }
 }

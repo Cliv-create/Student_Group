@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Student_Group
 {
-    internal class Student
+    internal class Student : ICloneable
     {
         public class SurnameAZComparer : IComparer<Student>
         {
@@ -58,6 +58,7 @@ namespace Student_Group
         {
             _name = name;
             _surname = surname;
+            // TODO: Add regex check: ^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$
             _email = email;
             _id = student_id;
             this.birthday = birthday;
@@ -78,6 +79,10 @@ namespace Student_Group
             home_adress = source_student.HomeAdress;
             phone_number = source_student.PhoneNumber;
             is_member = source_student.IsMember;
+
+            this.test_rates = source_student.test_rates.ToList();
+            this.coursework_rates = source_student.coursework_rates.ToList();
+            this.exam_rates = source_student.exam_rates.ToList();
         }
 
         public static bool operator > (Student a, Student b)
@@ -248,6 +253,14 @@ namespace Student_Group
         // Collections handling
         // ---
 
-
+        /// <summary>
+        /// Return a deep copy of this Student.
+        /// </summary>
+        /// <returns>Deep copy of Student.</returns>
+        public object Clone()
+        {
+            var temp_student = new Student(this);
+            return temp_student;
+        }
     }
 }
