@@ -149,5 +149,44 @@ namespace Student_Group
             var temp_group = new Group(this);
             return temp_group;
         }
+
+        public int GetCount()
+        {
+            return students.Count;
+        }
+ 
+        
+        public GroupEnumerator GetEnumerator()
+        {
+            return new GroupEnumerator(students);
+        } 
+    }
+
+    internal class GroupEnumerator
+    {
+        private List<Student> collection = null;
+        int index = 0;
+
+        public GroupEnumerator(List<Student> collection)
+        {
+            this.collection = collection;
+        }
+
+        public Student Current
+        {
+            get
+            {
+                return collection[index++];
+            }
+        }
+
+        public bool MoveNext()
+        {
+            if (index < collection.Count)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

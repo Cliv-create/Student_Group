@@ -28,6 +28,33 @@ namespace Student_Group
             g3.PrintGroup();
             Console.WriteLine("Original group:\n");
             g2.PrintGroup();
+            
+            Console.WriteLine("Foreach group:\n");
+            var group_foreach = new Group("Foreach group", "Using foreach loop", 123456);
+            group_foreach.AddStudent(new Student("Darius", "Larson", "38-435-23-53"));
+            group_foreach[0].AddTestRate(10);
+            group_foreach[0].AddTestRate(10);
+            group_foreach.AddStudent(new Student("John", "Joseph", "92-273-25-94"));
+            group_foreach[1].AddTestRate(6);
+            group_foreach[1].AddTestRate(6);
+            group_foreach.AddStudent(new Student("Melvin", "Daniels", "92-926-16-27"));
+            group_foreach[2].AddTestRate(12);
+            group_foreach[2].AddTestRate(12);
+
+            foreach (var item in group_foreach)
+            {
+                Console.WriteLine("New student!");
+                Console.WriteLine(item.ToString());
+            }
+
+            Console.WriteLine("\nSorting the group...\n");
+            var sorted_group_average = group_foreach.GetStudentsCopy();
+            sorted_group_average.Sort(new Student.AverageTestRateComparer());
+            
+            foreach (var item in sorted_group_average)
+            {
+                Console.WriteLine($"{item.ToString()}\nTest rates: {item.TestRatesString()}");
+            }
         }
     }
 }

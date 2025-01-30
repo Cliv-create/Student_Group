@@ -20,6 +20,32 @@ namespace Student_Group
         {
             public int Compare(Student? student_a, Student? student_b)
             {
+                return student_b.Surname.CompareTo(student_a.Surname);
+            }
+        }
+
+        public class SurnameLenghtComparer : IComparer<Student>
+        {
+            public int Compare(Student? student_a, Student? student_b)
+            {
+                if (student_a.Surname.Length > student_b.Surname.Length) return 1; // левый объект (первый параметр метода) БОЛЬШЕ
+                if (student_a.Surname.Length < student_b.Surname.Length) return -1; // левый объект (первый параметр метода) МЕНЬШЕ
+                return 0; // состояние по выбранному критерию идентично
+            }
+        }
+
+        public class NameAZComparer : IComparer<Student>
+        {
+            public int Compare(Student? student_a, Student? student_b)
+            {
+                return student_a.Name.CompareTo(student_b.Name);
+            }
+        }
+
+        public class NameZAComparer : IComparer<Student>
+        {
+            public int Compare(Student? student_a, Student? student_b)
+            {
                 return student_b.Name.CompareTo(student_a.Name);
             }
         }
@@ -30,6 +56,19 @@ namespace Student_Group
             {
                 if (student_a.Name.Length > student_b.Name.Length) return 1; // левый объект (первый параметр метода) БОЛЬШЕ
                 if (student_a.Name.Length < student_b.Name.Length) return -1; // левый объект (первый параметр метода) МЕНЬШЕ
+                return 0; // состояние по выбранному критерию идентично
+            }
+        }
+
+        /// <summary>
+        /// From lowest to highest average of List<int> test_rate comparer.
+        /// </summary>
+        public class AverageTestRateComparer : IComparer<Student>
+        {
+            public int Compare(Student? student_a, Student? student_b)
+            {
+                if (student_a.test_rates.Average() > student_b.test_rates.Average()) return 1; // левый объект (первый параметр метода) БОЛЬШЕ
+                if (student_a.test_rates.Average() < student_b.test_rates.Average()) return -1; // левый объект (первый параметр метода) МЕНЬШЕ
                 return 0; // состояние по выбранному критерию идентично
             }
         }
@@ -45,9 +84,9 @@ namespace Student_Group
         private uint min_rate; // TODO: Use variable
         private uint max_rate; // TODO: Use variable
 
-        List<int> test_rates = [0];
-        List<int> coursework_rates = [0];
-        List<int> exam_rates = [0];
+        List<int> test_rates;
+        List<int> coursework_rates;
+        List<int> exam_rates;
 
         public Student() : this("n/a", "n/a", "example@mail.com", 0, new DateTime(), "n/a", "00-000-000-00-00", 1, 12) { }
 
@@ -67,6 +106,9 @@ namespace Student_Group
             this.is_member = true;
             this.min_rate = min_rate;
             this.max_rate = max_rate;
+            test_rates = new List<int>();
+            coursework_rates = new List<int>();
+            exam_rates = new List<int>();
         }
 
         public Student(Student source_student)
@@ -168,6 +210,12 @@ namespace Student_Group
             get { return max_rate; }
         }
 
+        public override string ToString()
+        {
+            return $"Name + Surname: {this.Name} {this.Surname}. Email: {this.Email}. Phone number: {this.PhoneNumber}\n"
+                   + $"Id: {this.Id}. Home adress: {this.HomeAdress}. Birthday: {this.Birthday.Date}.";
+        }
+
         // ---
         // Collections handling
 
@@ -189,6 +237,11 @@ namespace Student_Group
         public bool RemoveTestRate(int rate)
         {
             return test_rates.Remove(rate);
+        }
+
+        public string TestRatesString()
+        {
+            return String.Join(",", test_rates.ToArray());
         }
 
         public void ClearTestRates()
